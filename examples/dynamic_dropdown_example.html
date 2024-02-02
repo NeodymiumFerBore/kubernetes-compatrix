@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!-- source: ChatGPT 3.5 -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Dropdown</title>
+</head>
+<body>
+    <label for="dropdown">Select Directory:</label>
+    <select id="dropdown"></select>
+
+    <script>
+        // Function to fetch data from the API
+        const fetchData = async () => {
+            try {
+                // Check if data is cached and not expired
+                const cachedData = localStorage.getItem('apiData');
+                if (cachedData) {
+                    const { data, timestamp } = JSON.parse(cachedData);
+                    const currentTime = new Date().getTime();
+                    if (currentTime - timestamp < 120000) {  // 2 minutes cache duration
+                        return data;
+                    }
+                }
+
+                // Fetch data from the API (replace :user and :repo)
+                const response = await fetch('https://api.github.com/repos/:user/:repo/contents/');
+                const data = await response.json();
+
+                // Cache the data along with the timestamp
+                const timestamp = new Date().getTime();
+                localStorage.setItem('apiData', JSON.stringify({ data, timestamp }));
+
+                return data;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                throw error;
+            }
+        };
+
+        // Function to populate dropdown options
+        const populateDropdown = async () => {
+            try {
+                const dropdown = document.getElementById('dropdown');
+                const data = await fetchData();
+
+                // Filter data where "type" is equal to "dir"
+                const dirEntries = data.filter(item => item.type === 'dir');
+
+                // Populate dropdown options
+                dirEntries.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.name; // set the value as needed
+                    option.textContent = item.name; // set the label as needed
+                    dropdown.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error populating dropdown:', error);
+            }
+        };
+
+        // Call the function to populate dropdown on page load
+        populateDropdown();
+    </script>
+</body>
+</html>

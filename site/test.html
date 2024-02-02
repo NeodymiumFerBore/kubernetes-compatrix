@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="css/style.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="intro">
+      <h1>Kubernetes compatibility matrix</h1>
+      <p>A compatibility matrix for Kubernetes and various related tools</p>
+    </div>
+    <div class="container">
+    <!-- tool selection -->
+      <input class="form-control" type="text" id="tools_form" list="tools" autocomplete="off" placeholder="helm" value="argo-cd">
+      <datalist id="tools" style="width:800px"></datalist>
+      <input type="submit" value='Add'>
+    
+      <!-- Kubernetes version selection -->
+      <label for="kube-version">Kubernetes version</label>
+      <select id="kube-version" onchange="javascript:refreshMatrix();"></select>
+
+    <div id="wrapper"></div>
+
+    <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.0.0/js-yaml.min.js"></script>
+    <script src="src/fetchYaml.js"></script>
+    <script src="src/tool.js"></script>
+    <script src="src/index.js"></script>
+  </body>
+</html>

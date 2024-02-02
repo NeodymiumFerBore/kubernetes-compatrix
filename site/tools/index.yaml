@@ -1,0 +1,7 @@
+# Mimic GitHub API format
+- name: argo-cd
+  type: dir
+- name: cluster-autoscaler
+  type: dir
+- name: helm
+  type: dir

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!-- source: https://stackoverflow.com/questions/68075281/search-for-item-in-long-dropdown-list-with-input-filter-but-only-allow-user-to -->
+<input class="form-control" type="text" id="color" list="colors-data" autocomplete="off">
+<datalist id="colors-data" style="width:800px">
+  <option value="red"></option>
+  <option value="orange"></option>
+  <option value="green"></option>
+  <option value="blue"></option>
+</datalist>
+<input type="submit" value="send request">
+<script>
+
+// Cache the elements
+const options = document.querySelectorAll('option');
+const form = document.querySelector('form');
+const input = document.querySelector('#color');
+const submit = document.querySelector('[type="submit"]');
+
+// Add an click listener to the submit button
+submit.addEventListener('click', handleSubmit, false);
+
+// Iterate over the options with `map` and return a
+// new array of colour values
+const colors = Array.from(options).map(el => el.value);
+
+function handleSubmit(e) {
+
+  // Prevent the form from submitting
+  e.preventDefault();
+
+  // Check to see if the input value is included
+  // in the colours array
+  if (colors.includes(input.value)) {
+
+    // If it is submit the form
+    console.log('Found');
+    // form.submit();
+  } else {
+
+    // Otherwise do nothing
+    console.log('Not found');
+  }
+}
+</script>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!-- source: ChatGPT 3.5 -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Dropdown</title>
+</head>
+<body>
+    <input class="form-control" type="text" id="color" list="tools" autocomplete="off" placeholder="helm">
+    <datalist id="tools" style="width:800px">
+        <!-- <option value="red"></option> -->
+    </datalist>
+    <input type="submit" value="select">
+
+    <script>
+        // Function to fetch directories from GitHub API
+        const fetchData = async () => {
+            try {
+                // Fetch data from the API (replace :user, :repo and :path)
+                const response = await fetch('https://api.github.com/repos/:user/:repo/contents/:path');
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error fetching directories:', error);
+                throw error;
+            }
+        };
+
+        // Function to populate dropdown options
+        const populateDropdown = async () => {
+            try {
+                const dropdown = document.getElementById('tools');
+                const data = await fetchData();
+
+                // Filter data where "type" is equal to "dir"
+                const dirEntries = data.filter(item => item.type === 'dir');
+
+                // Populate dropdown options
+                dirEntries.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.name; // set the value as needed
+                    // option.textContent = item.name; // set the label as needed
+                    dropdown.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error populating dropdown:', error);
+            }
+        };
+
+        // Call the function to populate dropdown on page load
+        populateDropdown();
+
+        // Cache the elements
+        // const options = document.querySelectorAll('option');
+        // const form = document.querySelector('form');
+        const input = document.querySelector('#color');
+        const submit = document.querySelector('[type="submit"]');
+
+        // Add a click listener to the submit button
+        submit.addEventListener('click', handleSubmit, false);
+
+        function handleSubmit(e) {
+            const tools = Array.from(document.querySelectorAll('option')).map(el => el.value);
+
+            // Prevent the form from actually submitting
+            e.preventDefault();
+
+            // Check if input exists in tools array
+            if (tools.includes(input.value)) {
+                console.log('Found');
+                // form.submit();
+            } else {
+                console.log('Not found');
+            }
+        }
+    </script>
+</body>
+</html>

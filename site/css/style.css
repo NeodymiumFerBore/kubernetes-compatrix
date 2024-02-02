@@ -1,0 +1,42 @@
+body {
+  font-family: lato, sans-serif;
+}
+
+.container {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+input {
+  border-radius: 3px;
+  padding: 10px 15px;
+  justify-content: space-between;
+  justify-content: center;
+}
+
+select {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border-radius: 3px;
+  padding: 10px;
+  justify-content: center;
+}
+
+/* For IE10 */
+select::-ms-expand {
+  display: none;
+}
+
+h2 {
+  font-size: 26px;
+  margin: 20px 0;
+  text-align: center;
+
+  small {
+    font-size: 0.5em;
+  }
+}
