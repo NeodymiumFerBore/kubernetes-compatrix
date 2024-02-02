@@ -76,7 +76,7 @@ function getSelectedKubeVersion() {
 }
 
 // Cache the elements
-const input = document.querySelector('#tools_form');
+const input = document.querySelector('#tools-form');
 const submit = document.querySelector('[type="submit"]');
 
 // Add a click listener to the submit button

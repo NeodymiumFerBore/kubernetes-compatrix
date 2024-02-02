@@ -1,49 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-<meta charset="UTF-8">
-<title>Kubernetes Compatrix</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="css/style.css">
-<body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kubernetes compatibility matrix</title>
+    <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet"/>
+    <link href="css/style.css" rel="stylesheet"/>
+  </head>
+  <body>
+    <div class="intro">
+      <h1>Kubernetes compatibility matrix</h1>
+      <p>A compatibility matrix for Kubernetes and various related tools</p>
+    </div>
+    <div class="container">
+      <!-- tool selection -->
+      <input class="form-control" type="text" id="tools-form" list="tools" autocomplete="off" placeholder="helm" value="argo-cd">
+      <datalist id="tools" style="width:800px"></datalist>
+      <input type="submit" value="Add">
 
-<!-- <img src="illustration.png" alt="LA" style="width:100%"> -->
+      <!-- Kubernetes version selection -->
+      <label for="kube-version">Kubernetes version</label>
+      <select id="kube-version" onchange="javascript:refreshMatrix();"></select>
+    </div>
+    <div id="wrapper"></div>
 
-<div class="intro">
-  <h1>Kubernetes compatibility matrix</h1>
-  <p>A compatibility matrix for Kubernetes and various related tools</p>
-</div>
-<div class="container">
-<!-- tool selection -->
-  <input class="form-control" type="text" id="tools_form" list="tools" autocomplete="off" placeholder="helm" value="argo-cd">
-  <datalist id="tools" style="width:800px"></datalist>
-  <input type="submit" value='Add'>
-
-  <!-- Kubernetes version selection -->
-  <label for="kube-version">Kubernetes version</label>
-  <select id="kube-version" onchange="javascript:refreshMatrix();"></select>
-
-  <!-- https://codepen.io/faaezahmd/pen/dJeRex -->
-  <ul class="responsive-table">
-    <li class="table-header">
-      <div class="col col-1">Tool</div>
-      <div class="col col-2">Min</div>
-      <div class="col col-3">Max</div>
-      <!-- <div class="col col-4"></div> <!-- for later use, cross sign to delete row or clear table -->
-    </li>
-    <!-- Example row -->
-    <!--
-      <li class="table-row">
-        <div class="col col-1" data-label="Tool">argo-cd</div>
-        <div class="col col-2" data-label="Min">2.5</div>
-        <div class="col col-3" data-label="Max">2.7</div>
-        <div class="col col-4" data-label=""></div>
-      </li>
-    -->
-  </ul>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.0.0/js-yaml.min.js"></script>
-<script src="main.js", type="module"></script>
-
-</body>
+    <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.0.0/js-yaml.min.js"></script>
+    <script src="src/fetchYaml.js"></script>
+    <script src="src/tool.js"></script>
+    <script src="src/index.js"></script>
+  </body>
 </html>
