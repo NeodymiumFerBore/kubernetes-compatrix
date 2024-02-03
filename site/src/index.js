@@ -2,7 +2,7 @@ grid = new gridjs.Grid({
     columns: ["Tool", "Min", "Max"],
     data: []
 });
-grid.render(document.getElementById("wrapper"));
+grid.render(document.getElementById("compat-table-wrapper"));
 
 let tools = [];
 availableTools = [];
