@@ -1,8 +1,16 @@
+// Setup Grid
 grid = new gridjs.Grid({
     columns: ["Tool", "Min", "Max"],
     data: []
 });
 grid.render(document.getElementById("compat-table-wrapper"));
+
+// Setup TopicSelector
+topicSelector = new TopicSelector(document.getElementById("tool-selector-wrapper"), placeholder="Search a tool...");
+topicSelector.clearFieldOnSelect = true;
+topicSelector.addEventListener("select", function(e) {
+  console.log("Got event, selected text: " + e.text)
+})
 
 let tools = [];
 availableTools = [];
@@ -69,6 +77,7 @@ const populateKubeVersions = async () => {
 // Call the function to populate dropdown on page load
 populateTools();
 populateKubeVersions();
+topicSelector.updateSuggestions(availableTools);
 
 function getSelectedKubeVersion() {
   const dropdown = document.getElementById('kube-version');
