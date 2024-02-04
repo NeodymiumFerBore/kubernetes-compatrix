@@ -8,9 +8,7 @@ grid.render(document.getElementById("compat-table-wrapper"));
 // Setup TopicSelector
 topicSelector = new TopicSelector(document.getElementById("tool-selector-wrapper"), placeholder="Search a tool...");
 topicSelector.clearFieldOnSelect = true;
-topicSelector.addEventListener("select", function(e) {
-  console.log("Got event, selected text: " + e.detail)
-})
+topicSelector.addEventListener("select", handleAddTool);
 
 let tools = [];
 availableTools = [];
@@ -98,16 +96,13 @@ input.addEventListener('keyup', function(e) {
 
 // Add tool to matrix
 function handleAddTool(e) {
-  // Prevent the form from actually submitting
-  e.preventDefault();
-
   // Check if input exists in tools array
-  if (availableTools.includes(input.value)) {
-    console.log('Found');
-    if (!toolAlreadySelected(input.value)) {
-      fetchToolData(input.value).then(jsonData => {
+  let input = e.detail;
+  if (availableTools.includes(input)) {
+    if (!toolAlreadySelected(input)) {
+      fetchToolData(input).then(jsonData => {
         kubeVers = getSelectedKubeVersion()
-        newTool = new Tool(input.value, jsonData);
+        newTool = new Tool(input, jsonData);
         tools.push(newTool);
 
         grid.config.data.push([newTool.name, newTool.getMin(kubeVers), newTool.getMax(kubeVers)]);
