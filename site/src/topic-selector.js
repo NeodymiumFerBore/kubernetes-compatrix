@@ -1,34 +1,4 @@
-// Abstract class to provid child class the ability to dispatch events
-// at object level (without relying on a DOM element)
-class EventEmitter {
-  listeners = {};
-
-  // https://medium.com/@rheedhar/abstract-classes-in-javascript-d6510afac958
-  // This trick makes the class abstract
-  constructor() {
-    if (this.constructor == EventEmitter) {
-      throw new Error("EventEmitter is an abstract class and cannot be instantiated");
-    }
-  }
-
-  // https://stackoverflow.com/questions/68564882/how-do-you-do-custom-events-on-a-javascript-es6-class
-  emit(method, payload = null) {
-    const callback = this.listeners[method];
-    if(typeof callback === 'function'){
-        callback(payload);
-    }
-  }
-
-  addEventListener(method,callback) {
-    this.listeners[method] = callback;
-  }
-
-  removeEventListener (method) {
-    delete this.listeners[method];
-  }
-}
-
-class TopicSelector extends EventEmitter {
+class TopicSelector extends EventTarget {
   /*
   Base HTML structure
   First element is provided by user, and will be used as parent element
@@ -87,6 +57,10 @@ class TopicSelector extends EventEmitter {
     this.parentElement.addEventListener("keyup", this.#eventHandler.bind(this));
   }
 
+  #emit(type, detail = null) {
+    this.dispatchEvent(new CustomEvent(type, { detail: detail }));
+  }
+
   #eventHandler(event) {
     if (event.target === this.inputBox) {
       switch (event.type) {
@@ -127,7 +101,7 @@ class TopicSelector extends EventEmitter {
   select(element){
     let selectData = element.currentTarget.textContent;
     this.inputBox.value = selectData;
-    this.emit("select", { text: selectData });
+    this.#emit("select", selectData);
     // Clear input field when required
     if (this.clearFieldOnSelect) {
       this.inputBox.value = null;

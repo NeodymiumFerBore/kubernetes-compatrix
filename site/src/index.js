@@ -9,7 +9,7 @@ grid.render(document.getElementById("compat-table-wrapper"));
 topicSelector = new TopicSelector(document.getElementById("tool-selector-wrapper"), placeholder="Search a tool...");
 topicSelector.clearFieldOnSelect = true;
 topicSelector.addEventListener("select", function(e) {
-  console.log("Got event, selected text: " + e.text)
+  console.log("Got event, selected text: " + e.detail)
 })
 
 let tools = [];
