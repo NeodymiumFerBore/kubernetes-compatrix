@@ -1,28 +1,46 @@
-// Setup Grid
-grid = new gridjs.Grid({
+import { Tool } from "./tool.js";
+import { TopicSelector } from "./topic-selector.js";
+
+// parcel does not support http[s] scheme for imports... Import it in index.html
+//import { Grid } from "https://unpkg.com/gridjs?module";
+
+// import { Grid } from "./test.js";
+let url = "https://unpkg.com/gridjs?module"
+let grid;
+
+await import(url).then(gridjs => {
+  grid = new gridjs.Grid({
     columns: ["Tool", "Min", "Max"],
     data: []
+  });
+  grid.render(document.getElementById("compat-table-wrapper"));
 });
-grid.render(document.getElementById("compat-table-wrapper"));
+// Setup Grid
+// let grid = new Grid({
+//     columns: ["Tool", "Min", "Max"],
+//     data: []
+// });
+// grid.render(document.getElementById("compat-table-wrapper"));
 
 // Setup TopicSelector
-topicSelector = new TopicSelector(document.getElementById("tool-selector-wrapper"), placeholder="Search a tool...");
+let topicSelector = new TopicSelector(document.getElementById("tool-selector-wrapper"), "Search a tool...");
 topicSelector.clearFieldOnSelect = true;
 topicSelector.addEventListener("select", function(e) {
   console.log("Got event, selected text: " + e.text)
 })
 
 let tools = [];
-availableTools = [];
+let availableTools = [];
 
 // Temporary. Once better implemented, in gh action, parse all kube versions for all
 // defined tools, and define the array from result (ordered set)
 const kubeVersions = Array.from({length: 10}, (x, i) => "v1." + (i+20))
 const kubeVersionDropdown = document.getElementById('kube-version');
+kubeVersionDropdown.addEventListener("change", refreshMatrix);
 
 const fetchTools = async () => {
   // Fetch tools index
-  data = fetch('tools/index.yaml')
+  let data = fetch('tools/index.yaml')
     .then(response => response.text())
     .then(yamlData => { return jsyaml.load(yamlData); })
     .catch(error => console.error('Error fetching YAML file: ', error));
@@ -31,7 +49,7 @@ const fetchTools = async () => {
 
 function fetchToolData(toolName) {
   // Fetch the YAML file
-  data = fetch('tools/' + toolName + '/data.yaml')
+  let data = fetch('tools/' + toolName + '/data.yaml')
     .then(response => response.text())
     .then(yamlData => { return jsyaml.load(yamlData); })
     .catch(error => console.error('Error fetching YAML file: ', error));
@@ -106,8 +124,8 @@ function handleAddTool(e) {
     console.log('Found');
     if (!toolAlreadySelected(input.value)) {
       fetchToolData(input.value).then(jsonData => {
-        kubeVers = getSelectedKubeVersion()
-        newTool = new Tool(input.value, jsonData);
+        let kubeVers = getSelectedKubeVersion()
+        let newTool = new Tool(input.value, jsonData);
         tools.push(newTool);
 
         grid.config.data.push([newTool.name, newTool.getMin(kubeVers), newTool.getMax(kubeVers)]);
@@ -122,9 +140,9 @@ function handleAddTool(e) {
 }
 
 function refreshMatrix() {
-  data = []
+  let data = [];
   tools.forEach(tool => {
-    kubeVers = getSelectedKubeVersion()
+    let kubeVers = getSelectedKubeVersion();
     data.push([tool.name, tool.getMin(kubeVers), tool.getMax(kubeVers)]);
   })
   grid.updateConfig({data: data}).forceRender();

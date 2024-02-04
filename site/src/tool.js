@@ -1,5 +1,5 @@
 // Represent a tool at a given Kubernetes version
-class Tool {
+export class Tool {
   name;
   home;
   sources;

@@ -28,7 +28,7 @@ class EventEmitter {
   }
 }
 
-class TopicSelector extends EventEmitter {
+export class TopicSelector extends EventEmitter {
   /*
   Base HTML structure
   First element is provided by user, and will be used as parent element
