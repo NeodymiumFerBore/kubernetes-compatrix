@@ -1,0 +1,29 @@
+.intro {
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.flex-container {
+  display: flex;
+  flex-flow: row-reverse wrap;
+  max-width: 90%;
+  width: 100%;
+}
+
+.divA {
+  /* flex-grow: 1; */
+  /* https://stackoverflow.com/questions/26125962/flex-box-shrink-before-wrap */
+  flex: 1 1 200px; /* wrap at 200px */
+  padding: 2px;
+  max-width: 100%;
+}
+
+.divB {
+  padding: 2px;
+  width: 100px;
+  order: -1; /* compensate reverse-row */
+}
