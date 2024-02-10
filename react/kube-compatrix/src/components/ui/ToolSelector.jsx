@@ -25,7 +25,7 @@ export default function ToolForm({ options, defaults }) {
             return {
               ...base,
               backgroundColor: isFocused ? "aquamarine" : "transparent",
-              borderRadius: "30px",
+              borderRadius: "360px",
               margin: "5px",
               maxWidth: "96%", // compensate weird overflow when changing margin
             };

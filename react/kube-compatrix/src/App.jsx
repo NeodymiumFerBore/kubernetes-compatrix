@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import Form from "./Form";
+import Form from "./components/Form";
 import { DisplayCount } from "./DisplayCount";
-import "./index.css";
+import "./css/index.css";
 
 import { countContext } from "./Context";
 

@@ -5,15 +5,13 @@
   justify-content: center;
   /* align-content: center; */
   align-items: flex-start;
+
+  gap: 5px;
+  padding: 5px;
 }
 
 .data-form .tool-form {
   flex-basis: 50%;
   max-width: 800px;
-  padding: 2px;
-}
-
-.data-form .kube-vers-form {
-  /* Do not alter sized, React fixes it to longest option length */
-  padding: 2px;
+  padding: 0px;
 }

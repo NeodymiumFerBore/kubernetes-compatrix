@@ -1,5 +1,5 @@
-import ToolForm from "./ToolForm";
-import KubeVersionSelector from "./KubeVersionSelector";
+import ToolForm from "./ui/ToolSelector";
+import KubeVersionSelector from "./ui/KubeVersionSelector";
 import "./form.css";
 
 const toolsOptions = [
