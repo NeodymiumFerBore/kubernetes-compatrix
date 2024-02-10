@@ -1,0 +1,89 @@
+/* table {
+  border-collapse: collapse;
+  border: 2px solid rgb(140 140 140);
+  font-family: sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+}
+
+caption {
+  caption-side: bottom;
+  padding: 10px;
+  font-weight: bold;
+}
+
+thead,
+tfoot {
+  background-color: rgb(228 240 245);
+}
+
+th,
+td {
+  border: 1px solid rgb(160 160 160);
+  padding: 8px 10px;
+}
+
+td:last-of-type {
+  text-align: center;
+}
+
+tbody > tr:nth-of-type(even) {
+  background-color: rgb(237 238 242);
+}
+
+tfoot th {
+  text-align: right;
+}
+
+tfoot td {
+  font-weight: bold;
+} */
+
+body {
+  background: #644bff;
+}
+
+div.table-container {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+table {
+  border-spacing: 10px 5px; /* horizontal vertical */
+  border-collapse: separate;
+
+  max-width: 90%;
+  width: 100%;
+}
+
+table caption {
+  caption-side: bottom;
+  padding: 5px;
+  font-weight: bold;
+  background-color: rgb(224, 255, 112);
+  border-radius: 360px;
+  text-align: center;
+  margin: 5px 10px;
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+}
+
+table td,
+table th {
+  border-radius: 360px;
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+  padding: 5px;
+}
+
+table td {
+  background-color: aquamarine;
+  padding-left: 10px;
+}
+
+table th[scope="col"] {
+  background-color: tomato;
+}
+
+th[scope="row"] {
+  background-color: bisque;
+}
