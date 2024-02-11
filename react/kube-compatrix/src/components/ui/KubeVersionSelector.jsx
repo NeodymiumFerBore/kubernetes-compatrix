@@ -1,19 +1,26 @@
-import Select, { components } from "react-select";
 import SelectorWithIcon from "./SelectorWithIcon";
 import kubeIcon from "../../assets/kubernetes-icon-color.svg";
+import { useContext } from "react";
+import { selectedKubeVersionsContext } from "../../Context";
 
-export default function KubeVersionSelector({ options, kubeVersionChanged }) {
+export default function KubeVersionSelector({ options }) {
+  const { setSelectedKubeVersion } = useContext(selectedKubeVersionsContext);
+  const { selectedKubeVersion } = useContext(selectedKubeVersionsContext);
+
   return (
     <>
       <SelectorWithIcon
         iconSrc={kubeIcon}
-        defaultValue={options[options.length - 1]}
-        name="kube-version"
         options={options}
+        defaultValue={
+          options.find((d) => d.value == selectedKubeVersion) ||
+          options.slice(-1)
+        }
+        name="kube-version"
         className="kube-version"
         classNamePrefix="kube-version"
         inputId="kube-version"
-        onChange={kubeVersionChanged}
+        onChange={(version) => setSelectedKubeVersion(version.value)}
       />
     </>
   );

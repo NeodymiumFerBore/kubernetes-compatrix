@@ -3,9 +3,11 @@ import Form from "./components/Form";
 import { DisplayCount } from "./DisplayCount";
 import "./css/index.css";
 
-import { countContext } from "./Context";
+// Contexts
+import { countContext, selectedKubeVersionsContext } from "./Context";
 
-const colourOptions = [
+const tools = [
+  { value: "toto", label: "Toto" },
   { value: "blue", label: "Blue" },
   { value: "green", label: "Green" },
   { value: "white", label: "White" },
@@ -14,57 +16,44 @@ const colourOptions = [
   { value: "red", label: "Red" },
 ];
 
+const availableKubeVersions = ["v1.22", "v1.23", "v1.24"];
+
 const loadFromLocalStorage = (key) => {
   const localValue = localStorage.getItem(key);
   if (localValue == null) {
-    return [];
+    return null;
   }
 
   return JSON.parse(localValue);
 };
 
 export default function App() {
-  console.log("Rendering App");
-  const [tools, setTools] = useState(() => {
-    return loadFromLocalStorage("TOOLS");
+  const [selectedTools, setSelectedTools] = useState(() => {
+    //return loadFromLocalStorage("TOOLS");
   });
-  const [kubeVersion, setKubeVersion] = useState(() => {
+  const [selectedKubeVersion, setSelectedKubeVersion] = useState(() => {
     return loadFromLocalStorage("KUBE_VERSION");
   });
 
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    localStorage.setItem("TOOLS", JSON.stringify(tools));
-  }, [tools]);
-
-  useEffect(() => {
-    localStorage.setItem("KUBE_VERSION", JSON.stringify(kubeVersion));
-  }, [kubeVersion]);
+    console.log("Kube version changed: " + selectedKubeVersion);
+    availableKubeVersions.includes(selectedKubeVersion) &&
+      localStorage.setItem("KUBE_VERSION", JSON.stringify(selectedKubeVersion));
+  }, [selectedKubeVersion]);
 
   function addTool(name) {
-    setTools((currentTools) => {
+    setSelectedTools((currentTools) => {
       console.log("Adding tool: " + name);
       return [...currentTools, { name }];
     });
   }
 
   function deleteTool(name) {
-    setTools((currentTools) => {
+    setSelectedTools((currentTools) => {
       console.log("Removing tool: " + name);
       return currentTools.filter((tool) => tool.name !== name);
-    });
-  }
-
-  function handleKubeVersionChange(newVersion) {
-    setKubeVersion((kubeVersion) => {
-      console.log(
-        "Kube version changed: from " +
-          kubeVersion.value +
-          " to " +
-          newVersion.value
-      );
-      return newVersion;
     });
   }
 
@@ -75,12 +64,16 @@ export default function App() {
           <DisplayCount />
         </countContext.Provider>
       </div>
-      <Form
-        tools={tools}
-        itemSelected={addTool}
-        itemUnselected={deleteTool}
-        kubeVersionChanged={handleKubeVersionChange}
-      />
+      <selectedKubeVersionsContext.Provider
+        value={{ selectedKubeVersion, setSelectedKubeVersion }}
+      >
+        <Form
+          tools={tools}
+          availableKubeVersions={availableKubeVersions}
+          itemSelected={addTool}
+          itemUnselected={deleteTool}
+        />
+      </selectedKubeVersionsContext.Provider>
       {/* Table div */}
       <div id="compat-table-wrapper"></div>
     </>
