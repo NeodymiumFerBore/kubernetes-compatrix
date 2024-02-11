@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import Form from "./components/Form";
-import { DisplayCount } from "./DisplayCount";
 import "./css/index.css";
 
 // Contexts
-import { countContext, selectedKubeVersionsContext } from "./Context";
+import { selectedKubeVersionsContext } from "./Context";
 
 const tools = [
   { value: "toto", label: "Toto" },
@@ -35,8 +34,6 @@ export default function App() {
     return loadFromLocalStorage("KUBE_VERSION");
   });
 
-  const [count, setCount] = useState(0);
-
   useEffect(() => {
     console.log("Kube version changed: " + selectedKubeVersion);
     availableKubeVersions.includes(selectedKubeVersion) &&
@@ -59,11 +56,6 @@ export default function App() {
 
   return (
     <>
-      <div className="App">
-        <countContext.Provider value={{ count, setCount }}>
-          <DisplayCount />
-        </countContext.Provider>
-      </div>
       <selectedKubeVersionsContext.Provider
         value={{ selectedKubeVersion, setSelectedKubeVersion }}
       >
